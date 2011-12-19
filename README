@@ -1,0 +1,22 @@
+My quick & dirty solution to the optionaln NLP programming exercise at ai-class.org.
+
+I did dynamic programming over a super simple digraph-based model.
+The complexity is O(n^2 * 2^n) (with n=19 for this example), and the constants are fairly large (e.g. 26^2-size dictionary access at every step), so it actually takes about a minute on my computer (it's in Python 3.x so that doesn't help with the execution time :); the first few first-stripe choices are slow, but the later ones get increasingly faster due to memoization).
+This obviously won't scale beyond n in the very low 20s, but being used to C++, my instinct reaction to n=19 is to do dynamic programming since it results in subsecond runtime.
+
+I got the English statistics from an old C99 draft which was the only large English text file I had, but probably isn't a very good source of data for "casual" language.
+I counted digraphs at both ends of words and anywhere in the word, and used this data to join digraphs in the text stripes.
+Obviously, dynamic programming finds the best order under this model, but the model is very simplistic.
+All the probabilities are in logs since they are very small.
+
+It works for this example, but could be improved in various ways.
+
+As suggested in the problem statement, I assume a greedy approach with a level or two of lookahead would work really well and would allow for more complex word-based models.
+Obviously, such an approach could also scale to pretty high n with little trouble.
+I'll probably try that when I get a few hours of free time.
+
+I think the "anywhere" and "word-end" probabilities should also be scaled to matching ranges, but they were close enough for this example so I didn't do that.
+I'm not really sure about returning the average probability for "unknown" digraphs (those that aren't two letters but something else), either.
+Finally, the double space detection is kind of a hack and wasn't a part of my original model, but I guess it makes sense :).
+
+Thanks to Peter Norvig for posing the problem, it was just the right combination of simple and fun :).
